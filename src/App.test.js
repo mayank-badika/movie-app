@@ -4,9 +4,8 @@ import App from './App'
 const axios = require("axios");
 const MockAdapter = require("axios-mock-adapter");
 const mock = new MockAdapter(axios);
-
-mock.onGet("http://www.omdbapi.com/?s=Star Wars&apikey=9a61c8c4").reply(200, {
-    Search: [
+const url = "http://www.omdbapi.com/?s=Star Wars&apikey=9a61c8c4";
+const response = {Search: [
         {
             "Title": "Star Wars Mayank Edition",
             "Year": "1977",
@@ -21,8 +20,20 @@ mock.onGet("http://www.omdbapi.com/?s=Star Wars&apikey=9a61c8c4").reply(200, {
             Year: "1980",
             imdbID: "tt0080684"
         }
-    ]
-});
+    ]}
+
+mock.onGet(url).reply(200, response
+);
+
+//Api call tests
+describe("api gets called",() =>{
+    it("calls the api", async ()=>{
+        render(<App/>);
+        expect(mock.history.get[0].url).toEqual(url);
+        const apiResponse = mock.handlers.get[0][4];
+        expect(apiResponse).toEqual(response)
+    })
+})
 
 describe('When the user types something', () => {
     it('component has header of Movies',  () => {
