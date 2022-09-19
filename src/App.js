@@ -6,19 +6,19 @@ import SearchBox from './components/SearchBox';
 import MovieListHeading from './components/MovieListHeading';
 import AddFavourites from './components/AddFavourites';
 import RemoveFavourites from './components/RemoveFavourites';
+import axios from 'axios';
 
 const App = () => {
 	const [movies, setMovies] = useState([]);
-  const [searchValue, setSearchValue] = useState('star wars');
+  const [searchValue, setSearchValue] = useState('Star Wars');
   const [favourites, setFavourites] = useState([]);
 
 	const getMovieRequest = async (searchValue) => {
 		const url = 'http://www.omdbapi.com/?s='+searchValue+'&apikey=9a61c8c4';
-		const response = await fetch(url);
-		const responseJson = await response.json();
-
-		if (responseJson.Search) {
-			setMovies(responseJson.Search);
+		const {data} = await axios.get(url);
+		console.log(data);
+		if (data.Search) {
+			setMovies(data.Search);
 		}
 	};
 
