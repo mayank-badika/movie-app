@@ -1,10 +1,28 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import MovieList from './components/MovieList';
-import SearchBox from './components/SearchBox';
-import MovieListHeading from './components/MovieListHeading';
-import AddFavourites from './components/AddFavourites';
-import RemoveFavourites from './components/RemoveFavourites';
 import App from './App'
+
+const axios = require("axios");
+const MockAdapter = require("axios-mock-adapter");
+const mock = new MockAdapter(axios);
+
+mock.onGet("http://www.omdbapi.com/?s=Star Wars&apikey=9a61c8c4").reply(200, {
+    Search: [
+        {
+            "Title": "Star Wars Mayank Edition",
+            "Year": "1977",
+            "imdbID": "tt0076759",
+            "Type": "movie",
+            "Poster": "https://m.media-amazon.com/images/M/MV5BNzg4MjQxNTQtZmI5My00YjMwLWJlMjUtMmJlY2U2ZWFlNzY1XkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg"
+        },
+        {
+            Poster: "https://m.media-amazon.com/images/M/MV5BYmU1NDRjNDgtMzhiMi00NjZmLTg5NGItZDNiZjU5NTU4OTE0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
+            Title: "Star Wars: Episode V - The Empire Strikes Back",
+            Type: "movie",
+            Year: "1980",
+            imdbID: "tt0080684"
+        }
+    ]
+});
 
 describe('When the user types something', () => {
     it('component has header of Movies',  () => {
